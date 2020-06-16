@@ -1,5 +1,4 @@
 'use strict'
-
 class Questions {
   constructor(db) {
     this.db = db
@@ -7,10 +6,18 @@ class Questions {
     this.collection = this.ref.child('questions')
   }
 
-  async create (data, user) {
+  async create (info, user, filename) {
     const ask = {
-      ...data
+      description: info.description,
+      title: info.title,
+      owner: user
     }
+
+    console.log('create :: filename ::', filename)
+    if (filename) {
+      ask.filename = filename
+    }
+
     ask.owner = user
     const question = this.collection.push()
     question.set(ask)
